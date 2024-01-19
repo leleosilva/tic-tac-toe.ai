@@ -33,18 +33,20 @@ class TicTacToe:
         else:
             return ComputerPlayer(repr)
 
-    def play(self):
+    def play(self) -> Outcome:
 
         curr_player = self.players[0]
         while self.board.is_fully_occupied() == False:
-            curr_player.move()
+            curr_player.move(self.board)
             
             if self.check_winner(curr_player):
-                return f"{curr_player.repr} wins the game!"
+                #return f"{curr_player.repr} wins the game!"
+                return Outcome.X_WINS if Outcome.X_WINS.value == curr_player.repr.value else Outcome.O_WINS
             
             curr_player = self.change_turn(curr_player)
         
-        return "It's a tie!"
+        #return "It's a tie!"
+        return Outcome.TIE
     
     # Checks if the current player wins the game after playing their turn
     def check_winner(self, curr_player: Player):
@@ -54,6 +56,4 @@ class TicTacToe:
     def change_turn(self, curr_player: Player) -> Player:
         return self.players[0] if curr_player is self.players[1] else self.players[1]
     
-
-game = TicTacToe([1, 2])
-game.play()
+print(Outcome.O_WINS)
