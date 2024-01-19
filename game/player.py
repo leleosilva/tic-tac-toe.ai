@@ -4,8 +4,8 @@ from board import Board
 
 # Enum defining possible representations for each player
 class PlayerRepr(Enum):
-    X = 0
-    O = 1
+    X = 1
+    O = -1
 
 # Enum defining different types of players
 class PlayerType(Enum):
@@ -48,7 +48,7 @@ class HumanPlayer(Player):
                 print("The chosen position is occupied. Try again.")
             else:
                 break
-        board.occupy_position(choice, self.repr)
+        board.occupy_position(choice, self.repr.name)
             
 
 
@@ -60,7 +60,7 @@ class RandomPlayer(Player):
 
     def move(self, board: Board):
         choice = random.choice(board.get_available_positions())
-        board.occupy_position(choice, self.repr)
+        board.occupy_position(choice, self.repr.name)
 
 
 
@@ -78,7 +78,7 @@ class ComputerPlayer(Player):
         else: # Executes the Minimax algorithm
             choice = self.minimax()
 
-        board.occupy_position(available_positions)
+        board.occupy_position(available_positions, self.repr.name)
 
     def minimax(self):
         pass
