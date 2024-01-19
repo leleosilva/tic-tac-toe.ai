@@ -3,7 +3,7 @@ import numpy as np
 class Board():
     
     # Constructor method
-    def __init__(self, dim=3):
+    def __init__(self, dim: int=3) -> None:
         self.board_dim = dim
 
         # Each board position is a dictionary that holds the
@@ -15,7 +15,7 @@ class Board():
         )
 
     # String representation of Board
-    def __str__(self):
+    def __str__(self) -> str:
         board_repr = ""
         positions_repr = [] # Stores the representation of each position
         
@@ -31,6 +31,17 @@ class Board():
                     
         # Board with positions represented by 'X', 'O' or its index  
         for i in range(self.board_dim):
-            board_repr += ('| ' + ' | '.join(positions_repr[(i * self.board_dim):((i+1) * self.board_dim)]) + ' |\n')
+            
+            # Alignment based on board dimension
+            if self.board_dim ** 2 < 10: # Up to 9 positions
+                alignment = ''
+            elif self.board_dim ** 2 <= 100: # Up to 99 positions
+                alignment = '^2'
+            else:
+                alignment = '^3' # 100 or more positions
 
+            # Get representation per each row
+            row_repr = positions_repr[(i * self.board_dim):((i+1) * self.board_dim)]
+
+            board_repr += ('| ' + f' | '.join([format(repr, alignment) for repr in row_repr]) + ' |\n')
         return board_repr
