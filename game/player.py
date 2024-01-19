@@ -5,6 +5,13 @@ class PlayerRepr(Enum):
     X = 0
     O = 1
 
+# Enum defining different types of players
+class PlayerType(Enum):
+    HUMAN = 1
+    RANDOM = 2
+    COMPUTER = 3
+
+
 # Parent class for all types of players
 class Player():
 
