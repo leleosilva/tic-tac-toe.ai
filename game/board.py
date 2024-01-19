@@ -47,6 +47,16 @@ class Board():
             board_repr += ('| ' + f' | '.join([format(repr, alignment) for repr in row_repr]) + ' |\n')
         return board_repr
     
+    # Sets position as occupied by a player represented by 'X' or 'O'
+    def occupy_position(self, position_idx: int, player_repr: str):
+        
+        # Converts 1-D array index to 2-D index (row and col)
+        row_idx = position_idx // self.dim
+        col_idx = position_idx % self.dim
+
+        self.positions[row_idx, col_idx]['occupied'] = True
+        self.positions[row_idx, col_idx]['player'] = player_repr
+    
     # Checks if the board is fully occupied.
     # np.ravel() is used to flatten the board to a 1-D array.
     def is_fully_occupied(self) -> bool:
