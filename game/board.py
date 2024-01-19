@@ -1,16 +1,17 @@
 import numpy as np
+from player import PlayerRepr
 
 class Board():
     
     # Constructor method
     def __init__(self, dim: int=3) -> None:
-        self.board_dim = dim
+        self.dim = dim
 
         # Each board position is a dictionary that holds the
-        # information of ocupation and which player occupies it
+        # information of occupation and which player occupies it
         position = {'occupied': False, 'player': None}
         self.positions = np.array(
-            [[position.copy() for _ in range(self.board_dim)] for _ in range(self.board_dim)],
+            [[position.copy() for _ in range(self.dim)] for _ in range(self.dim)],
             dtype=object
         )
 
@@ -20,28 +21,28 @@ class Board():
         positions_repr = [] # Stores the representation of each position
         
         # Iterate through positions, checking if they are occupied
-        for row in range(self.board_dim):
-            for col in range(self.board_dim):
+        for row in range(self.dim):
+            for col in range(self.dim):
 
                 # Get the player string representation ('X' or 'O')
                 if self.positions[row, col]['occupied'] == True:
                     positions_repr.append(self.positions[row, col]['player'])
                 else: # Get the index of a unoccupied position
-                    positions_repr.append(str(row * self.board_dim + col))
+                    positions_repr.append(str(row * self.dim + col))
                     
         # Board with positions represented by 'X', 'O' or its index  
-        for i in range(self.board_dim):
+        for i in range(self.dim):
             
             # Alignment based on board dimension
-            if self.board_dim ** 2 < 10: # Up to 9 positions
+            if self.dim ** 2 < 10: # Up to 9 positions
                 alignment = ''
-            elif self.board_dim ** 2 <= 100: # Up to 99 positions
+            elif self.dim ** 2 <= 100: # Up to 99 positions
                 alignment = '^2'
             else:
                 alignment = '^3' # 100 or more positions
 
             # Get representation per each row
-            row_repr = positions_repr[(i * self.board_dim):((i+1) * self.board_dim)]
+            row_repr = positions_repr[(i * self.dim):((i+1) * self.dim)]
 
             board_repr += ('| ' + f' | '.join([format(repr, alignment) for repr in row_repr]) + ' |\n')
         return board_repr
@@ -55,12 +56,53 @@ class Board():
     # np.ravel() is used to flatten the board to a 1-D array.
     def get_available_positions(self) -> list:
         return [idx for idx, position in enumerate(self.positions.ravel()) if position.get('occupied') == False]
+
+    # Check on each row whether a winner exists, based on two conditions:
+    # 1. If a row is fully occupied;
+    # 2. If the same player occupies the entire row.
+    def check_winner_rows(self, player_repr: str):
+        for row_idx in range(self.dim):
+            row = self.positions[row_idx, :]
+            
+            row_fully_occupied = all(position.get('occupied') == True for position in row)
+            player_fully_occupies = all(position.get('player') == player_repr for position in row)
+
+            if row_fully_occupied and player_fully_occupies:
+                return True
+        return False
+
+    # Check on each column whether a winner exists, based on two conditions:
+    # 1. If a column is fully occupied;
+    # 2. If the same player occupies the entire column.
+    def check_winner_cols(self, player_repr: str):
+        for col_idx in range(self.dim):
+            col = self.positions[:, col_idx]
+            
+            col_fully_occupied = all(position.get('occupied') == True for position in col)
+            player_fully_occupies = all(position.get('player') == player_repr for position in col)
+
+            if col_fully_occupied and player_fully_occupies:
+                return True
+        return False
+
+    # Check on each diagonal whether a winner exists, based on two conditions:
+    # 1. If a diagonal is fully occupied;
+    # 2. If the same player occupies the entire diagonal.
+    def check_winner_diagonals(self, player_repr: str):
         
-    def check_winner_rows(self):
-        pass
+        # First diagonal
+        diag1 = self.positions.diagonal()
 
-    def check_winner_cols(self):
-        pass
+        # The anti-diagonal is obtained by flipping the board
+        # vertically with np.flipud()
+        diag2 = np.flipud(self.positions).diagonal()
 
-    def check_winner_diagonals(self):
-        pass
+        diagonals = [diag1, diag2]
+        for diag in diagonals:
+            
+            diag_fully_occupied = all(position.get('occupied') == True for position in diag)
+            player_fully_occupies = all(position.get('player') == player_repr for position in diag)
+
+            if diag_fully_occupied and player_fully_occupies:
+                return True
+        return False
