@@ -45,3 +45,22 @@ class Board():
 
             board_repr += ('| ' + f' | '.join([format(repr, alignment) for repr in row_repr]) + ' |\n')
         return board_repr
+    
+    # Checks if the board is fully occupied.
+    # np.ravel() is used to flatten the board to a 1-D array.
+    def is_fully_occupied(self) -> bool:
+        return all(position.get('occupied') == True for position in self.positions.ravel())
+    
+    # Return the index of positions which are not occupied.
+    # np.ravel() is used to flatten the board to a 1-D array.
+    def get_available_positions(self) -> list:
+        return [idx for idx, position in enumerate(self.positions.ravel()) if position.get('occupied') == False]
+        
+    def check_winner_rows(self):
+        pass
+
+    def check_winner_cols(self):
+        pass
+
+    def check_winner_diagonals(self):
+        pass
