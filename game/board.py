@@ -56,6 +56,11 @@ class Board():
         self.positions[row_idx, col_idx]['occupied'] = True
         self.positions[row_idx, col_idx]['player'] = player_repr
     
+    # Checks if the board is totally empty.
+    # np.ravel() is used to flatten the board to a 1-D array.
+    def is_empty(self) -> bool:
+        return all(position.get('occupied') == False for position in self.positions.ravel())
+    
     # Checks if the board is fully occupied.
     # np.ravel() is used to flatten the board to a 1-D array.
     def is_fully_occupied(self) -> bool:
