@@ -1,4 +1,6 @@
+import random
 from enum import Enum
+from board import Board
 
 # Enum defining possible representations for each player
 class PlayerRepr(Enum):
@@ -38,8 +40,10 @@ class RandomPlayer(Player):
     def __init__(self, repr: PlayerRepr) -> None:
         super().__init__(repr)
 
-    def move(self):
-        pass
+    def move(self, board: Board):
+        choice = random.choice(board.get_available_positions())
+        board.occupy_position(choice, self.repr)
+
 
 
 # Defines a player controlled by AI based on the Minimax algorithm
