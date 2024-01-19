@@ -30,8 +30,26 @@ class HumanPlayer(Player):
     def __init__(self, repr: PlayerRepr) -> None:
         super().__init__(repr)
 
-    def move(self):
-        pass
+    def move(self, board: Board):
+        available_positions = board.get_available_positions()
+
+        while True:
+            choice = input(f"\n{self.repr}'s turn. Input move (0-{board.dim ** 2 - 1}): ")
+
+            try:
+                choice = int(choice)
+            except ValueError:
+                print("Invalid position. Try again.")
+                continue
+
+            if 0 > choice or choice > board.dim ** 2 - 1:
+                print("Invalid position. Try again.")
+            elif choice not in available_positions:
+                print("The chosen position is occupied. Try again.")
+            else:
+                break
+        board.occupy_position(choice, self.repr)
+            
 
 
 # Defines a player that randomly chooses a position to play
@@ -52,5 +70,5 @@ class ComputerPlayer(Player):
     def __init__(self, repr: PlayerRepr) -> None:
         super().__init__(repr)
 
-    def move(self):
+    def move(self, board: Board):
         pass
