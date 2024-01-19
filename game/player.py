@@ -71,4 +71,14 @@ class ComputerPlayer(Player):
         super().__init__(repr)
 
     def move(self, board: Board):
+        available_positions = board.get_available_positions()
+        
+        if board.is_empty(): # Chooses random position if the board is empty
+            choice = random.choice(board.get_available_positions())
+        else: # Executes the Minimax algorithm
+            choice = self.minimax()
+
+        board.occupy_position(available_positions)
+
+    def minimax(self):
         pass
