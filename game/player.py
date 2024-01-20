@@ -1,4 +1,5 @@
 import random
+from time import sleep
 from enum import Enum
 from board import Board
 
@@ -34,7 +35,7 @@ class HumanPlayer(Player):
         available_positions = board.get_available_positions()
 
         while True:
-            choice = input(f"\n{self.repr}'s turn. Input move (0-{board.dim ** 2 - 1}): ")
+            choice = input(f"It's {self.repr.name}'s turn. Input move (0-{board.dim ** 2 - 1}): ")
 
             try:
                 choice = int(choice)
@@ -42,7 +43,7 @@ class HumanPlayer(Player):
                 print("Invalid position. Try again.")
                 continue
 
-            if 0 > choice or choice > board.dim ** 2 - 1:
+            if choice < 0 or choice > (board.dim ** 2 - 1):
                 print("Invalid position. Try again.")
             elif choice not in available_positions:
                 print("The chosen position is occupied. Try again.")
@@ -60,6 +61,10 @@ class RandomPlayer(Player):
 
     def move(self, board: Board):
         choice = random.choice(board.get_available_positions())
+        
+        print(f"It's {self.repr.name}'s turn. {self.repr.name} chooses position {choice}.")
+        sleep(1) # Adds a small delay of 1 second to make the UI clearer; optional
+
         board.occupy_position(choice, self.repr.name)
 
 
@@ -78,7 +83,7 @@ class ComputerPlayer(Player):
         else: # Executes the Minimax algorithm
             choice = self.minimax()
 
-        board.occupy_position(available_positions, self.repr.name)
+        board.occupy_position(choice, self.repr.name)
 
     def minimax(self):
         pass
