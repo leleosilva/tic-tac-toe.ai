@@ -133,10 +133,10 @@ class Board():
     
     # Checks if the current player wins the game after playing their turn
     def check_winner(self, player_repr_str: str):
-        if self.board.check_winner_rows(player_repr_str):
+        if self.check_winner_rows(player_repr_str):
             return True
-        if self.board.check_winner_cols(player_repr_str):
+        if self.check_winner_cols(player_repr_str):
             return True
-        if self.board.check_winner_diagonals(player_repr_str):
+        if self.check_winner_diagonals(player_repr_str):
             return True
         return False
