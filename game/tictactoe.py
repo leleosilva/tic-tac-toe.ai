@@ -3,7 +3,7 @@ from board import Board
 from player import *
 
 # Enum defining possible game outcomes
-class Outcome(Enum):
+class GameState(Enum):
     X_WINS = 1
     O_WINS = -1
     TIE = 0
@@ -33,7 +33,7 @@ class TicTacToe:
         else:
             return ComputerPlayer(repr)
 
-    def play(self) -> Outcome:
+    def play(self) -> GameState:
 
         curr_player = self.players[0]
         while self.board.is_fully_occupied() == False:
@@ -43,12 +43,12 @@ class TicTacToe:
             
             if self.board.check_winner(curr_player.repr.name):
                 print(self.board)
-                return Outcome.X_WINS if curr_player.repr == PlayerRepr.X else Outcome.O_WINS
+                return GameState.X_WINS if curr_player.repr == PlayerRepr.X else GameState.O_WINS
             
             curr_player = self.change_turn(curr_player)
         
         print(self.board)
-        return Outcome.TIE
+        return GameState.TIE
 
     # Changes turn based on the current player
     def change_turn(self, curr_player: Player) -> Player:
