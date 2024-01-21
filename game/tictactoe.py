@@ -37,23 +37,19 @@ class TicTacToe:
 
         curr_player = self.players[0]
         while self.board.is_fully_occupied() == False:
+            print(self.board)
+            
             curr_player.move(self.board)
             
-            if self.check_winner(curr_player):
-                #return f"{curr_player.repr} wins the game!"
+            if self.board.check_winner(curr_player.repr.name):
+                print(self.board)
                 return Outcome.X_WINS if Outcome.X_WINS.value == curr_player.repr.value else Outcome.O_WINS
             
             curr_player = self.change_turn(curr_player)
         
-        #return "It's a tie!"
+        print(self.board)
         return Outcome.TIE
-    
-    # Checks if the current player wins the game after playing their turn
-    def check_winner(self, curr_player: Player):
-        pass
 
     # Changes turn based on the current player
     def change_turn(self, curr_player: Player) -> Player:
         return self.players[0] if curr_player is self.players[1] else self.players[1]
-    
-print(Outcome.O_WINS)

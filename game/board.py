@@ -130,3 +130,13 @@ class Board():
             if diag_fully_occupied and player_fully_occupies:
                 return True
         return False
+    
+    # Checks if the current player wins the game after playing their turn
+    def check_winner(self, player_repr_str: str):
+        if self.board.check_winner_rows(player_repr_str):
+            return True
+        if self.board.check_winner_cols(player_repr_str):
+            return True
+        if self.board.check_winner_diagonals(player_repr_str):
+            return True
+        return False
