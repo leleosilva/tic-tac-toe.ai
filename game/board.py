@@ -16,7 +16,7 @@ class Board():
 
     # String representation of Board
     def __str__(self) -> str:
-        board_repr = ""
+        board_repr = "\n"
         positions_repr = [] # Stores the representation of each position
         
         # Iterate through positions, checking if they are occupied
@@ -55,6 +55,16 @@ class Board():
 
         self.positions[row_idx, col_idx]['occupied'] = True
         self.positions[row_idx, col_idx]['player'] = player_repr
+
+    # Sets position as not occupied
+    def undo_move(self, position_idx: int):
+
+        # Converts 1-D array index to 2-D index (row and col)
+        row_idx = position_idx // self.dim
+        col_idx = position_idx % self.dim
+
+        self.positions[row_idx, col_idx]['occupied'] = False
+        self.positions[row_idx, col_idx]['player'] = None
     
     # Checks if the board is totally empty.
     # np.ravel() is used to flatten the board to a 1-D array.
