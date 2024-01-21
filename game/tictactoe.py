@@ -43,7 +43,7 @@ class TicTacToe:
             
             if self.board.check_winner(curr_player.repr.name):
                 print(self.board)
-                return Outcome.X_WINS if Outcome.X_WINS.value == curr_player.repr.value else Outcome.O_WINS
+                return Outcome.X_WINS if curr_player.repr == PlayerRepr.X else Outcome.O_WINS
             
             curr_player = self.change_turn(curr_player)
         
