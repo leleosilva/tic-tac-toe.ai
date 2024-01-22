@@ -53,7 +53,7 @@ class GameManager():
                 print("\nInvalid choice. Try again.")
             else:
                 if choice == 3: # Warning for computer player
-                    print("Warning: the Minimax algorithm might not be optimized board dimensions higher than 5.")
+                    print("Warning: the Minimax algorithm might not be optimized for board dimensions higher than 5.")
                     sleep(1)
                 return choice
 
