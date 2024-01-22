@@ -52,6 +52,9 @@ class GameManager():
             if choice not in [1, 2, 3]:
                 print("\nInvalid choice. Try again.")
             else:
+                if choice == 3: # Warning for computer player
+                    print("Warning: the Minimax algorithm might not be optimized board dimensions higher than 5.")
+                    sleep(1)
                 return choice
 
     # Asks the user for the desired board dimension     
@@ -72,12 +75,6 @@ class GameManager():
                 continue
             if choice <= 0:
                 print("\nInvalid choice. Try again.")
-            
-            # The implementation might be slow for big dimensions,
-            # including the Minimax algorithm
-            elif choice > 20:
-                print("Warning: the game might not be optimized for this dimension.")
-                return choice
             else:
                 return choice
 
@@ -96,5 +93,7 @@ class GameManager():
             else:
                 print("Invalid choice. Try again.")
 
-game_manager = GameManager()
-game_manager.run()
+
+if __name__ == '__main__':
+    game_manager = GameManager()
+    game_manager.run()
